@@ -1,0 +1,30 @@
+{
+  "name": "ingress-shaper-glyphs",
+  "version": "0.0.0",
+  "description": "Ingress Shaper Glyph database",
+  "main": "index.js",
+  "dependencies": {
+    "gulp": "^3.8.7",
+    "gulp-util": "^3.0.0",
+    "langs": "^1.0.1",
+    "lodash": "^2.4.1",
+    "through2": "^0.6.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ento/ingress-shaper-glyphs.git"
+  },
+  "keywords": [
+    "ingress"
+  ],
+  "author": "Marica Odagaki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ento/ingress-shaper-glyphs/issues"
+  },
+  "homepage": "https://github.com/ento/ingress-shaper-glyphs"
+}
