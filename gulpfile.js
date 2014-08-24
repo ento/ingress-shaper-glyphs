@@ -1,9 +1,12 @@
+require('string.prototype.endswith');
 var fs = require('fs');
 var Stream = require('stream');
 var through2 = require('through2');
-var lodash = require('lodash');
+var _ = require('lodash');
+_.str = require('underscore.string');
 var langs = require('langs');
 var csv = require('csv');
+var JSONStream = require('JSONStream');
 var Canvas = require('canvas');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -43,7 +46,7 @@ function createGlyphStream(glyphString) {
   return canvas.pngStream();
 }
 
-function createPngFile(path, pngStream) {
+function createStreamedFile(path, pngStream) {
   var file = new gutil.File({
       base: "",
       path: path,
@@ -56,8 +59,27 @@ function createPngFile(path, pngStream) {
   return file;
 }
 
+function toJson(row) {
+  var rv = {};
+  Object.keys(row).forEach(function(key) {
+    var value = row[key];
+    var key = key.replace(/ /g, "_");
+    if (key.endsWith("alts")) {
+      value = value.length > 0 ? value.split(",") : [];
+    } else if (key.endsWith("level")) {
+      value = parseInt(value);
+    }
+    rv[key] = value;
+  });
+  rv.node_count = _.uniq(rv.code).length;
+  rv.memrise_index = _.str.pad(rv.memrise_level, 2, "0") + "-" + _.str.pad(rv.order_in_level, 2, "0");
+  return rv;
+}
+
 gulp.task('course-data', function(opt) {
   var dest = gulp.dest('dist');
+  var jsonStream = JSONStream.stringify();
+  dest.write(createStreamedFile("glyphs.json", jsonStream));
   var outputs = {};
   function createOutput(filename, columns) {
     var file = new gutil.File({
@@ -72,7 +94,7 @@ gulp.task('course-data', function(opt) {
     stringifier.pipe(file.contents);
     dest.write(file);
     // write headers
-    stringifier.write(lodash.reduce(columns, function(memo, each) {
+    stringifier.write(_.reduce(columns, function(memo, each) {
       memo[each] = each;
       return memo;
     }, {}));
@@ -94,9 +116,10 @@ gulp.task('course-data', function(opt) {
   parser.on('readable', function() {
     var record;
     while(record = parser.read()) {
-      dest.write(createPngFile(
+      dest.write(createStreamedFile(
         "images/" + record.code + ".png",
         createGlyphStream(record.code)));
+      jsonStream.write(toJson(record));
       languages(record).forEach(function(langCode) {
         var langLabel = langs.where("1", langCode).local;
         var columns = ["Code", "English", langLabel];
@@ -120,6 +143,7 @@ gulp.task('course-data', function(opt) {
     Object.keys(outputs).forEach(function(key) {
       outputs[key].end();
     });
+    jsonStream.end();
   });
 
   fs.createReadStream('src/glyphs.csv').pipe(parser);
@@ -188,7 +212,7 @@ function createLogoStream(glyphs) {
 gulp.task('course-logo', function() {
   var glyphs = [
       {key: "shaper", index: 0}];
-  gulp.dest('dist').write(createPngFile(
+  gulp.dest('dist').write(createStreamedFile(
     "course-logo.png",
     createLogoStream(glyphs)));
 });
