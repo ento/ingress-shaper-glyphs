@@ -1,0 +1,65 @@
+body {
+  font-family: Sans-serif;
+}
+
+.links {
+  font-size: 80%;
+}
+
+.links ul {
+  margin: 0;
+  padding: 0;
+}
+
+.links li {
+  display: inline;
+  list-style-type: none;
+}
+
+.links li+li:before {
+  content: '| ';
+}
+
+.backgrid th {
+  text-align: left;
+}
+
+.backgrid-filter.form-search {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.sidenote {
+  text-align: right;
+}
+
+.backgrid td.image-cell {
+  text-align: center;
+}
+
+.backgrid td.integer-cell {
+  text-align: center;
+}
+
+.backgrid td.memrise-index-cell {
+  text-align: center;
+}
+
+th.memrise_index {
+  text-align: center;
+  width: 40px;
+}
+
+th.glyph {
+  text-align: center;
+  width: 100px;
+}
+
+th.en {
+  width: 80px;
+}
+
+th.node_count {
+  text-align: center;
+  width: 40px;
+}

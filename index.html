@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Ingress Shaper Glyphs</title>
+
+    <link href="http://cdn.bootcss.com/backgrid.js/0.3.5/backgrid.min.css" rel="stylesheet">
+    <link href="https://cdn.rawgit.com/wyuenho/backgrid-filter/0.3.5/backgrid-filter.min.css" rel="stylesheet">
+    <link href="./table.css" rel="stylesheet">
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script src="http://cdn.bootcss.com/backgrid.js/0.3.5/backgrid.min.js"></script>
+    <script src="https://cdn.rawgit.com/wyuenho/backgrid-filter/0.3.5/backgrid-filter.min.js"></script>
+  </head>
+  <body>
+    <div class="links">
+      <ul>
+        <li><a href="http://www.memrise.com/course/368204/ingress-shaper-glyphs/">memrise</a></li>
+        <li><a href="http://www.memrise.com/course/369242/ingress/">memrise: ja</a></li>
+        <li><a href="https://github.com/ento/ingress-shaper-glyphs">github</a></li>
+      </ul>
+    </div>
+    <div id="settings" class="sidenote">
+      <label for="lang">
+        Translate:
+        <select id="lang">
+          <option value="">-</option>
+        </select>
+      </label>
+      <label for="flatten"><input id="flatten" type="checkbox"> Expand alts</label>
+    </div>
+    <div class="sidenote">
+      <span id="length">0</span> glyphs
+    </div>
+    <div id="table"></div>
+    <script src="./table.js"></script>
+  </body>
+</html>
