@@ -28,6 +28,20 @@ If ``node-canvas`` is having trouble finding headers from X11, try:
 PKG_CONFIG_PATH=/opt/X11/lib/pkgconfig/ npm install --save canvas
 ```
 
+### Note about the "code" column
+
+This column unambiguously identifies a glyph. The format follows the [node numbering scheme used by Ingress glyph tools][node-numbering].
+
+[node-numbering]: https://github.com/gm9/ingress-glyph-tools/blob/master/glyph-tools.js#L205
+
+
+### Glyph and glyph name sources
+
+- [Glyphtionary](http://glyphtionary.com/)
+- [Ingress glyph tools](https://github.com/gm9/ingress-glyph-tools)
+- [Glypher](https://play.google.com/store/apps/details?id=com.dmidroid.ingress.glyphs)
+
+
 ---- 
 
 Niantic Labs has the authority on glyph names and imagery. Other portions of this repo are released under the MIT license.
