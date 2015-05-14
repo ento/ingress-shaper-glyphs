@@ -2,6 +2,10 @@ body {
   font-family: Sans-serif;
 }
 
+.backgrid-filter input[type="search"]::-webkit-search-cancel-button {
+/*  -webkit-appearance: none;*/
+}
+
 .links {
   font-size: 80%;
 }

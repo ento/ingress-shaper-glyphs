@@ -6,10 +6,19 @@ var langs = [{
   "local": "日本語"
 }];
 
+_.each(langs, function(each) {
+  var $option = $("<option/>");
+  $option.attr("value", each.code);
+  $option.text(each.local);
+  $("#lang").append($option);
+});
+
 $("<link/>")
   .attr("rel", "icon")
   .attr("href", baseUrl + "course-logo.png")
   .appendTo("head");
+
+// backgrid extensions
 
 var ImageCell = Backgrid.Cell.extend({
 
@@ -71,6 +80,7 @@ var ImageCell = Backgrid.Cell.extend({
 
 });
 
+// models
 
 var Glyph = Backbone.Model.extend({});
 
@@ -153,13 +163,6 @@ var columns = [{
     cell: "integer"
   }];
 
-_.each(langs, function(each) {
-  var $option = $("<option/>");
-  $option.attr("value", each.code);
-  $option.text(each.local);
-  $("#lang").append($option);
-});
-
 // Initialize a new Grid instance
 var grid = new Backgrid.Grid({
   columns: columns,
@@ -173,8 +176,7 @@ glyphs.on("reset", function() {
 // Render the grid and attach the root to your HTML document
 $("#table").append(grid.render().sort("en", "ascending").el);
 
-// Fetch glyphs from the url
-glyphs.fetch({reset: true});
+// settings
 
 function updateColumnsVisibility() {
   var altsColumn = grid.columns.findWhere({"name": "en_alts"});
@@ -190,7 +192,7 @@ function updateColumnsVisibility() {
 $("#flatten").on("change", function() {
   glyphs.setFlatten($(this).is(":checked"));
   updateColumnsVisibility();
-  glyphs.fetch({reset: true});
+  grid.render();
 });
 
 $("#lang").on("change", function() {
@@ -205,7 +207,7 @@ $("#lang").on("change", function() {
     l10nAltsColumn.set("label", lang.local);
   }
   updateColumnsVisibility();
-  grid.columns.trigger("reset");
+  grid.render();
 })
 
 var clientSideFilter = new Backgrid.Extension.ClientSideFilter({
@@ -214,7 +216,27 @@ var clientSideFilter = new Backgrid.Extension.ClientSideFilter({
   fields: ['en', 'en_alts'],
   wait: 150
 });
-
 $("#settings").after(clientSideFilter.render().el);
+
+// router
+
+var Workspace = Backbone.Router.extend({
+  routes: {
+    "*actions": "index"
+  },
+
+  index: function(actions, params) {
+    // Fetch glyphs from the url
+    glyphs.fetch({reset: true});
+    if (!_.isUndefined(params.lang)) {
+      $("#lang").val(params.lang).trigger("change");
+    }
+    if (!_.isUndefined(params.flatten)) {
+      $("#flatten").prop("checked", true).trigger("change");
+    }
+  }
+});
+var router = new Workspace;
+Backbone.history.start();
 
 });
